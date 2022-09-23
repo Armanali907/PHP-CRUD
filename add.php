@@ -7,7 +7,10 @@ if (isset($_POST['submit'])) {
     $location = $_POST['location'];
     $email = $_POST['email'];
     $mobile = $_POST['mobile'];
-    $password = $_POST['password'];
+    $password = $_POST['password'];                                  
+#insert into department(DeptName, DeptLocation) values('$department', '$location')
+
+#INSERT INTO <target table> (<columns>) SELECT <columns> FROM <table 1> UNION SELECT <columns> FROM <table 2>;
 
     $query = "insert into Employee(Name, Email, Mobile, Password) values('$name', '$email', '$mobile', '$password')";
     $result = mysqli_query($con, $query);
@@ -16,6 +19,9 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
+
+
+
 
 <!doctype html>
 <html lang="en">
