@@ -3,25 +3,38 @@ include 'connection.php';
 
 if (isset($_POST['submit'])) {
     $name = $_POST['name'];
-    $deparment = $_POST['department'];
+    $department = $_POST['department'];
     $location = $_POST['location'];
     $email = $_POST['email'];
     $mobile = $_POST['mobile'];
-    $password = $_POST['password'];                                  
-#insert into department(DeptName, DeptLocation) values('$department', '$location')
-
-#INSERT INTO <target table> (<columns>) SELECT <columns> FROM <table 1> UNION SELECT <columns> FROM <table 2>;
+    $password = $_POST['password'];
 
     $query = "insert into Employee(Name, Email, Mobile, Password) values('$name', '$email', '$mobile', '$password')";
     $result = mysqli_query($con, $query);
-    if ($result) {
-        header('location: view.php');
-    }
-}
+    var_dump($result);
+
+         if ($result) {
+            $id_query = 'SELECT empid from Employee ORDER BY empid DESC';
+            $result1_new = mysqli_query($con, $id_query);
+                if($result1_new){
+                   $row1 = mysqli_fetch_assoc($result1_new);
+                        $empid = $row1['empid'];
+                        $insert_dept = "insert into department(EmpId, DeptName, DeptLocation) values($empid, '$department', '$location')";
+                        $result2 = mysqli_query($con, $insert_dept);
+                        if ($result2) {
+                            header('location: view.php');
+                        }
+
+                }
+//         //$sql = "insert into department(EmpId, DeptName, DeptLocation) values($id, '$department', '$location')";
+//         $result2 = mysqli_query($con, $sql);
+//         if ($result2) {
+//             header('location: view.php');
+//         }
+//         //header('location: view.php');
+            }
+ }
 ?>
-
-
-
 
 <!doctype html>
 <html lang="en">
@@ -79,5 +92,4 @@ if (isset($_POST['submit'])) {
     </div>
 
 </body>
-
 </html>
