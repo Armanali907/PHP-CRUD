@@ -3,26 +3,40 @@ include 'connection.php';
 $id = $_GET['update'];
 if (isset($_POST['submit'])) {
     $name = $_POST['name'];
+    $department = $_POST['department'];
+    $location = $_POST['location'];
     $email = $_POST['email'];
     $mobile = $_POST['mobile'];
     $password = $_POST['password'];
 
-    $sql = "update employee set name='$name', email='$email', mobile='$mobile', password='$password' where id=$id";
+    $sql = "update e set name='$name', department='$department', location='$location', email='$email', mobile='$mobile', password='$password' from Employee e inner join Department d on e.EmpId=d.EmpId where empid=$id";
     $result = mysqli_query($con, $sql);
     if ($result) {
         header('location: view.php');
     }
 }
 
-$query = "select * from Employee where id=$id";
+
+// UPDATE im
+// SET mf_item_number = gm.SKU --etc
+// FROM item_master im
+// JOIN group_master gm
+//     ON im.sku = gm.sku 
+// JOIN Manufacturer_Master mm
+//     ON gm.ManufacturerID = mm.ManufacturerID
+// WHERE im.mf_item_number like 'STA%' AND
+//       gm.manufacturerID = 34
+
+$query = "select * from Employee where EmpId=$id";
 $result = mysqli_query($con, $query);
 $row = mysqli_fetch_assoc($result);
 if ($result) {
-    $id =  $row['ID'];
+    $id =  $row['EmpId'];
     $name = $row['Name'];
     $email = $row['Email'];
     $mobile =  $row['Mobile'];
     $password =  $row['Password'];
+    
 }
 
 ?>

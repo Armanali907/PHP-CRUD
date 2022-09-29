@@ -67,10 +67,10 @@ include 'connection.php';
                 } else {
                     //Paignation query
                     //$query = "select * from Employee limit " . $starting_limit_number . ',' . $starting_limit_number .;
-                    
+
                 }
                 $query = "SELECT * FROM employee INNER JOIN department ON department.EmpId = employee.EmpId limit  $starting_limit_number , $result_per_page ";
-                
+
                 $result = mysqli_query($con, $query);
                 if ($result) {
                     while ($row = mysqli_fetch_assoc($result)) {

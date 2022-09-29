@@ -11,29 +11,28 @@ if (isset($_POST['submit'])) {
 
     $query = "insert into Employee(Name, Email, Mobile, Password) values('$name', '$email', '$mobile', '$password')";
     $result = mysqli_query($con, $query);
-    var_dump($result);
 
-         if ($result) {
-            $id_query = 'SELECT empid from Employee ORDER BY empid DESC';
-            $result1_new = mysqli_query($con, $id_query);
-                if($result1_new){
-                   $row1 = mysqli_fetch_assoc($result1_new);
-                        $empid = $row1['empid'];
-                        $insert_dept = "insert into department(EmpId, DeptName, DeptLocation) values($empid, '$department', '$location')";
-                        $result2 = mysqli_query($con, $insert_dept);
-                        if ($result2) {
-                            header('location: view.php');
-                        }
 
-                }
-//         //$sql = "insert into department(EmpId, DeptName, DeptLocation) values($id, '$department', '$location')";
-//         $result2 = mysqli_query($con, $sql);
-//         if ($result2) {
-//             header('location: view.php');
-//         }
-//         //header('location: view.php');
+    if ($result) {
+        $id_query = 'SELECT empid from Employee ORDER BY empid DESC';
+        $result1_new = mysqli_query($con, $id_query);
+        if ($result1_new) {
+            $row1 = mysqli_fetch_assoc($result1_new);
+            $empid = $row1['empid'];
+            $insert_dept = "insert into department(EmpId, DeptName, DeptLocation) values($empid, '$department', '$location')";
+            $result2 = mysqli_query($con, $insert_dept);
+            if ($result2) {
+                header('location: view.php');
             }
- }
+        }
+        //         //$sql = "insert into department(EmpId, DeptName, DeptLocation) values($id, '$department', '$location')";
+        //         $result2 = mysqli_query($con, $sql);
+        //         if ($result2) {
+        //             header('location: view.php');
+        //         }
+        //         //header('location: view.php');
+    }
+}
 ?>
 
 <!doctype html>
@@ -56,16 +55,25 @@ if (isset($_POST['submit'])) {
                 <input type="text" class="form-control" name="name" placeholder="Enter your name" required>
             </div>
             <div class="mb-3">
-                <label for="department" class="form-label">Select Deparment</label><br>
-                <select name="department" id="department">
+                <label  class="form-label">Select Department</label><br>
+                <input type="checkbox" id="development" name="development" value="development">
+                <label for="development"> Development</label><br>
+                <input type="checkbox" id="testing" name="testing" value="testing">
+                <label for="testing"> Testing</label><br>
+                <input type="checkbox" id="marketing" name="marketing" value="marketing">
+                <label for="marketing">Marketing</label><br>
+
+                </div>
+
+                <!-- <select name="department" id="department">
                     <option value="">--Please choose an option--</option>
                     <option value="developer">Developer</option>
                     <option value="tester">Tester</option>
                     <option value="designer">Designer</option>
                     <option value="team lead">Team Lead</option>
-                </select>
-            </div>
-            <div class="mb-3">
+                </select> -->
+            
+            <!-- <div class="mb-3">
                 <label for="location" class="form-label">Deparment Location</label><br>
                 <select name="location" id="location">
                     <option value="">--Please choose an option--</option>
@@ -74,7 +82,7 @@ if (isset($_POST['submit'])) {
                     <option value="banglore">Banglore</option>
                     <option value="chennai">Chennai</option>
                 </select>
-            </div>
+            </div> -->
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" name="email" placeholder="Enter your email" required>
@@ -92,4 +100,5 @@ if (isset($_POST['submit'])) {
     </div>
 
 </body>
+
 </html>
