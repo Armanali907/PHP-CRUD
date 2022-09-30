@@ -4,6 +4,9 @@ include 'connection.php';
 if (isset($_POST['submit'])) {
     $name = $_POST['name'];
     $department = $_POST['department'];
+    foreach($department as $deptid){
+        
+    
     $email = $_POST['email'];
     $mobile = $_POST['mobile'];
     $password = $_POST['password'];
@@ -18,11 +21,12 @@ if (isset($_POST['submit'])) {
         if ($result1_new) {
             $row1 = mysqli_fetch_assoc($result1_new);
             $empid = $row1['empid'];
-            $query1 = "INSERT INTO Empartment(EmpId) VALUES($empid)";
+            $query1 = "INSERT INTO Empartment(EmpId, DeptId) VALUES($empid, $deptid)";
             $result1 = mysqli_query($con, $query1);
             if ($result1) {
                 header('location: view.php');
             }
+        }
 
 
             // $id_query = 'SELECT empid from Employee ORDER BY empid DESC';
@@ -68,12 +72,14 @@ if (isset($_POST['submit'])) {
             </div>
             <div class="mb-3">
                 <label class="form-label">Select Department</label><br>
-                <input type="checkbox" id="development" name="department" value="development">
+                <input type="checkbox" id="development" name="department[]" value="1">
                 <label for="development"> Development</label><br>
-                <input type="checkbox" id="testing" name="department" value="testing">
+                <input type="checkbox" id="testing" name="department[]" value="2">
                 <label for="testing"> Testing</label><br>
-                <input type="checkbox" id="marketing" name="department" value="marketing">
+                <input type="checkbox" id="marketing" name="department[]" value="3">
                 <label for="marketing">Marketing</label><br>
+                <input type="checkbox" id="admin" name="department[]" value="4">
+                <label for="admin">Admin</label><br>
 
             </div>
 

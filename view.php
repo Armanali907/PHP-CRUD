@@ -69,7 +69,7 @@ include 'connection.php';
                     //$query = "select * from Employee limit " . $starting_limit_number . ',' . $starting_limit_number .;
 
                 }
-                $query = "SELECT * FROM employee INNER JOIN department ON department.EmpId = employee.EmpId limit  $starting_limit_number , $result_per_page ";
+                $query = "SELECT * FROM employee JOIN empartment ON empartment.EmpId = employee.EmpId JOIN department ON department.DeptId = empartment.DeptId ORDER BY employee.EmpId limit  $starting_limit_number , $result_per_page  ";
 
                 $result = mysqli_query($con, $query);
                 if ($result) {
@@ -86,7 +86,7 @@ include 'connection.php';
                         $department = $row['DeptName'];
                         $location = $row['DeptLocation'];
 
-                        echo '<tr>
+                     echo '<tr>
                     <th>' . $id . '</th>
                     <td>' . $name . '</td>
                     <td>' . $email . '</td>
@@ -95,6 +95,7 @@ include 'connection.php';
                     <td>' . $deptid . '</td>
                     <td>' . $department . '</td>
                     <td>' . $location . '</td>
+                    
                     <td><a href="update.php?update=' . $id . '" class="text-light"><button class="btn btn-primary ">Update</button></a>
                     <a href="delete.php?delete=' . $id . '" class="text-light"><button class="btn btn-danger">Delete</button></a></td>
                 </tr>';
