@@ -1,5 +1,5 @@
 <?php
-    include 'connection.php';
+include 'connection.php';
 ?>
 
 <!doctype html>
@@ -63,13 +63,13 @@
                 //Search button logic
                 if (isset($_GET['search'])) {
                     $search = $_GET['search'];
-                    $query = "select * from employee join empartment on employee.EmpId = empartment.EmpId where name like '%$search%' or email like '%$search%' or empid like '%$search%' or mobile like '%$search%'";
+                    $query = "SELECT * FROM Employee JOIN empartment ON employee.EmpId = empartment.EmpId JOIN department ON department.DeptId = empartment.DeptId WHERE name='$search' or employee.empid = '$search'";
                 } else {
                     //Paignation query
                     //$query = "select * from Employee limit " . $starting_limit_number . ',' . $starting_limit_number .;
-
+                    $query = "SELECT * FROM Employee JOIN empartment ON empartment.EmpId = employee.EmpId JOIN department ON department.DeptId = empartment.DeptId ORDER BY employee.EmpId DESC limit  $starting_limit_number , $result_per_page  ";
                 }
-                $query = "SELECT * FROM employee JOIN empartment ON empartment.EmpId = employee.EmpId JOIN department ON department.DeptId = empartment.DeptId ORDER BY employee.EmpId limit  $starting_limit_number , $result_per_page  ";
+               
 
                 $result = mysqli_query($con, $query);
                 if ($result) {
@@ -83,7 +83,7 @@
                         $department = $row['DeptName'];
                         $location = $row['DeptLocation'];
 
-                     echo '<tr>
+                        echo '<tr>
                     <th>' . $id . '</th>
                     <td>' . $name . '</td>
                     <td>' . $email . '</td>
@@ -109,7 +109,7 @@
                     <?php
                     if (isset($_REQUEST['page'])) {
                         $active =  ($_REQUEST['page'] == $page) ? 'active' : '';
-                    }
+                    } 
                     ?>
                     <li class="page-item <?= $active ?>"><a class="page-link" href="view.php?page=<?= $page ?>"><?= $page ?></a></li>
                 <?php } ?>
@@ -117,4 +117,5 @@
         </nav>
     </div>
 </body>
+
 </html>

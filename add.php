@@ -50,15 +50,16 @@ if (isset($_POST['submit'])) {
             </div>
             <div class="mb-3">
                 <label class="form-label">Select Department</label><br>
-                <input type="checkbox" id="development" name="department[]" value="1">
-                <label for="development"> Development</label><br>
-                <input type="checkbox" id="testing" name="department[]" value="2">
-                <label for="testing"> Testing</label><br>
-                <input type="checkbox" id="marketing" name="department[]" value="3">
-                <label for="marketing">Marketing</label><br>
-                <input type="checkbox" id="admin" name="department[]" value="4">
-                <label for="admin">Admin</label><br>
-
+                <?php $dept_query_new =  "SELECT * FROM department";
+                $results = mysqli_query($con, $dept_query_new);
+                foreach($results as $result): 
+                $DeptId  = $result['DeptId'];
+                $DeptName  =  $result['DeptName'];
+                $DeptLocation =   $result['DeptLocation'] ;
+                ?>
+                <input type="checkbox" id="<?= strtolower($DeptName) ?>" name="department[]" value="<?= $DeptId ?>" >
+                <label for="<?= strtolower($DeptName) ?>"> <?= $DeptName ?></label><br>
+                <?php endforeach; ?>
             </div>
 
             <div class="mb-3">

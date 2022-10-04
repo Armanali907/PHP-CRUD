@@ -4,19 +4,21 @@ $id = $_GET['update'];
 if (isset($_POST['submit'])) {
     $name = $_POST['name'];
     $department = $_POST['department'];
-    foreach($department as $deptid){
-    $email = $_POST['email'];
-    $mobile = $_POST['mobile'];
-    $password = $_POST['password'];
-
-    $sql = "update e,em set name='$name', department='$deptid', email='$email', mobile='$mobile', password='$password' from Employee e join Empartment em on e.EmpId = em.EmpId where e.EmpId=$id";
-    $result = mysqli_query($con, $sql);
-    if ($result) {
-        header('location: view.php');
+    
+        $email = $_POST['email'];
+        $mobile = $_POST['mobile'];
+        $password = $_POST['password'];
+        foreach ($department as $deptid) {
+        $query = "UPDATE Employee,Empartment SET Employee.name='$name', empartment.DeptId=$deptid, Employee.email='$email', Employee.mobile='$mobile', Employee.password='$password' FROM Employee JOIN Empartment ON Employee.EmpId = Empartment.EmpId WHERE Employee.EmpId=$id";
+        $result = mysqli_query($con, $query);
+        if ($result) {
+            header('location: view.php');
+        }
     }
-}}
+}
 
-$query = "select * from Employee where EmpId=$id";
+//$query = "SELECT * FROM Employee WHERE EmpId=$id";
+$query = " SELECT * FROM Employee JOIN empartment ON empartment.EmpId = employee.EmpId JOIN department ON department.DeptId = empartment.DeptId WHERE employee.EmpId=$id";
 $result = mysqli_query($con, $query);
 $row = mysqli_fetch_assoc($result);
 if ($result) {
@@ -25,7 +27,9 @@ if ($result) {
     $email = $row['Email'];
     $mobile =  $row['Mobile'];
     $password =  $row['Password'];
-    
+    $userDeptId = $row['DeptId'];
+    //$userDeptName =
+    // $userDeptId =  [1,3]
 }
 
 ?>
@@ -51,15 +55,24 @@ if ($result) {
             </div>
             <div class="mb-3">
                 <label class="form-label">Select Department</label><br>
-                <input type="checkbox" id="development" name="department[]" value="1">
-                <label for="development"> Development</label><br>
-                <input type="checkbox" id="testing" name="department[]" value="2">
-                <label for="testing"> Testing</label><br>
-                <input type="checkbox" id="marketing" name="department[]" value="3">
-                <label for="marketing">Marketing</label><br>
-                <input type="checkbox" id="admin" name="department[]" value="4">
-                <label for="admin">Admin</label><br>
-
+                <?php $dept_query_new =  "SELECT * FROM department";
+                $results = mysqli_query($con, $dept_query_new);
+                foreach($results as $result): 
+                $DeptId  = $result['DeptId'];
+                $DeptName  =  $result['DeptName'];
+                $DeptLocation =   $result['DeptLocation'] ;
+                ?>
+                <?php
+                //$userDeptId = '';
+                if( $DeptId === $userDeptId){
+                    $checked = "checked";
+                } else {
+                    $checked = '';
+                }
+                ?>
+                <input type="checkbox" id="<?= strtolower($DeptName) ?>" name="department[]" value="<?= $DeptId ?>" <?= $checked ?>>
+                <label for="<?= strtolower($DeptName) ?>"> <?= $DeptName ?></label><br>
+                <?php endforeach; ?>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
