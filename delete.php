@@ -3,7 +3,7 @@ include 'connection.php';
 
 if (isset($_GET['delete'])) {
     $id = $_GET['delete'];
-    $query = " delete d,e from employee as e join department as d on e.EmpId = d.EmpId where e.EmpId = $id";
+    $query = " delete em,e from employee as e join empartment as em on e.EmpId = em.EmpId where e.EmpId = $id";
     $result = mysqli_query($con, $query);
     if ($result) {
 

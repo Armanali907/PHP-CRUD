@@ -4,9 +4,6 @@ include 'connection.php';
 if (isset($_POST['submit'])) {
     $name = $_POST['name'];
     $department = $_POST['department'];
-    foreach($department as $deptid){
-        
-    
     $email = $_POST['email'];
     $mobile = $_POST['mobile'];
     $password = $_POST['password'];
@@ -14,38 +11,19 @@ if (isset($_POST['submit'])) {
     $query = "INSERT INTO Employee(Name, Email, Mobile, Password) VALUES('$name', '$email', '$mobile', '$password')";
     $result = mysqli_query($con, $query);
 
-
-    if ($result) {
-        $id_query = "SELECT empid from Employee ORDER BY empid DESC";
-        $result1_new = mysqli_query($con, $id_query);
-        if ($result1_new) {
-            $row1 = mysqli_fetch_assoc($result1_new);
-            $empid = $row1['empid'];
-            $query1 = "INSERT INTO Empartment(EmpId, DeptId) VALUES($empid, $deptid)";
-            $result1 = mysqli_query($con, $query1);
-            if ($result1) {
-                header('location: view.php');
+    foreach ($department as $deptid) {
+        if ($result) {
+            $id_query = "SELECT empid from Employee ORDER BY empid DESC";
+            $result1_new = mysqli_query($con, $id_query);
+            if ($result1_new) {
+                $row1 = mysqli_fetch_assoc($result1_new);
+                $empid = $row1['empid'];
+                $query1 = "INSERT INTO Empartment(EmpId, DeptId) VALUES($empid, $deptid)";
+                $result1 = mysqli_query($con, $query1);
+                if ($result1) {
+                    header('location: view.php');
+                }
             }
-        }
-
-
-            // $id_query = 'SELECT empid from Employee ORDER BY empid DESC';
-            // $result1_new = mysqli_query($con, $id_query);
-            // if ($result1_new) {
-            //     $row1 = mysqli_fetch_assoc($result1_new);
-            //     $empid = $row1['empid'];
-            //     $insert_dept = "insert into department(EmpId, DeptName, DeptLocation) values($empid, '$department', '$location')";
-            //     $result2 = mysqli_query($con, $insert_dept);
-            //     if ($result2) {
-            //         header('location: view.php');
-            //     }
-            // }
-            //         //$sql = "insert into department(EmpId, DeptName, DeptLocation) values($id, '$department', '$location')";
-            //         $result2 = mysqli_query($con, $sql);
-            //         if ($result2) {
-            //             header('location: view.php');
-            //         }
-            //         //header('location: view.php');
         }
     }
 }
@@ -83,24 +61,6 @@ if (isset($_POST['submit'])) {
 
             </div>
 
-            <!-- <select name="department" id="department">
-                    <option value="">--Please choose an option--</option>
-                    <option value="developer">Developer</option>
-                    <option value="tester">Tester</option>
-                    <option value="designer">Designer</option>
-                    <option value="team lead">Team Lead</option>
-                </select> -->
-
-            <!-- <div class="mb-3">
-                <label for="location" class="form-label">Deparment Location</label><br>
-                <select name="location" id="location">
-                    <option value="">--Please choose an option--</option>
-                    <option value="delhi">Delhi</option>
-                    <option value="mumbai">Mumbai</option>
-                    <option value="banglore">Banglore</option>
-                    <option value="chennai">Chennai</option>
-                </select>
-            </div> -->
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
                 <input type="email" class="form-control" name="email" placeholder="Enter your email" required>

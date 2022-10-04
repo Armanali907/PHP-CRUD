@@ -1,5 +1,5 @@
 <?php
-include 'connection.php';
+    include 'connection.php';
 ?>
 
 <!doctype html>
@@ -63,7 +63,7 @@ include 'connection.php';
                 //Search button logic
                 if (isset($_GET['search'])) {
                     $search = $_GET['search'];
-                    $query = "select * from employee where name like '%$search%' or email like '%$search%' or empid like '%$search%' or mobile like '%$search%'";
+                    $query = "select * from employee join empartment on employee.EmpId = empartment.EmpId where name like '%$search%' or email like '%$search%' or empid like '%$search%' or mobile like '%$search%'";
                 } else {
                     //Paignation query
                     //$query = "select * from Employee limit " . $starting_limit_number . ',' . $starting_limit_number .;
@@ -74,9 +74,6 @@ include 'connection.php';
                 $result = mysqli_query($con, $query);
                 if ($result) {
                     while ($row = mysqli_fetch_assoc($result)) {
-                        // echo '<pre>';
-                        // var_dump($row);
-                        // echo '</pre>';
                         $id =  $row['EmpId'];
                         $name = $row['Name'];
                         $email = $row['Email'];
@@ -105,8 +102,6 @@ include 'connection.php';
             </tbody>
         </table>
 
-
-
         <!-- Pagination Buttons -->
         <nav aria-label="Page navigation example">
             <ul class="pagination">
@@ -122,5 +117,4 @@ include 'connection.php';
         </nav>
     </div>
 </body>
-
 </html>

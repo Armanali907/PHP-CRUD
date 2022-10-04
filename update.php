@@ -4,28 +4,17 @@ $id = $_GET['update'];
 if (isset($_POST['submit'])) {
     $name = $_POST['name'];
     $department = $_POST['department'];
-    $location = $_POST['location'];
+    foreach($department as $deptid){
     $email = $_POST['email'];
     $mobile = $_POST['mobile'];
     $password = $_POST['password'];
 
-    $sql = "update e set name='$name', department='$department', location='$location', email='$email', mobile='$mobile', password='$password' from Employee e inner join Department d on e.EmpId=d.EmpId where empid=$id";
+    $sql = "update e,em set name='$name', department='$deptid', email='$email', mobile='$mobile', password='$password' from Employee e join Empartment em on e.EmpId = em.EmpId where e.EmpId=$id";
     $result = mysqli_query($con, $sql);
     if ($result) {
         header('location: view.php');
     }
-}
-
-
-// UPDATE im
-// SET mf_item_number = gm.SKU --etc
-// FROM item_master im
-// JOIN group_master gm
-//     ON im.sku = gm.sku 
-// JOIN Manufacturer_Master mm
-//     ON gm.ManufacturerID = mm.ManufacturerID
-// WHERE im.mf_item_number like 'STA%' AND
-//       gm.manufacturerID = 34
+}}
 
 $query = "select * from Employee where EmpId=$id";
 $result = mysqli_query($con, $query);
@@ -61,24 +50,16 @@ if ($result) {
                 <input type="text" maxlength="10" class="form-control" name="name" placeholder="Enter your name" value="<?= $name; ?>" required>
             </div>
             <div class="mb-3">
-                <label for="department" class="form-label">Select Deparment</label><br>
-                <select name="department" id="department">
-                    <option value="">--Please choose an option--</option>
-                    <option value="developer">Developer</option>
-                    <option value="tester">Tester</option>
-                    <option value="designer">Designer</option>
-                    <option value="team lead">Team Lead</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="location" class="form-label">Deparment Location</label><br>
-                <select name="location" id="location">
-                    <option value="">--Please choose an option--</option>
-                    <option value="delhi">Delhi</option>
-                    <option value="mumbai">Mumbai</option>
-                    <option value="banglore">Banglore</option>
-                    <option value="chennai">Chennai</option>
-                </select>
+                <label class="form-label">Select Department</label><br>
+                <input type="checkbox" id="development" name="department[]" value="1">
+                <label for="development"> Development</label><br>
+                <input type="checkbox" id="testing" name="department[]" value="2">
+                <label for="testing"> Testing</label><br>
+                <input type="checkbox" id="marketing" name="department[]" value="3">
+                <label for="marketing">Marketing</label><br>
+                <input type="checkbox" id="admin" name="department[]" value="4">
+                <label for="admin">Admin</label><br>
+
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label">Email</label>
