@@ -94,7 +94,7 @@ include 'connection.php';
                     <td>' . $location . '</td>
                     
                     <td><a href="update.php?update=' . $id . '&empartmentid='.$empartment_id.'" class="text-light"><button class="btn btn-primary ">Update</button></a>
-                    <a href="delete.php?delete=' . $id . '" class="text-light"><button class="btn btn-danger">Delete</button></a></td>
+                    <a href="delete.php?delete=' . $id . '&deleteid='.$empartment_id.'" class="text-light"><button class="btn btn-danger">Delete</button></a></td>
                 </tr>';
                     }
                 }
