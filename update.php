@@ -1,23 +1,32 @@
 <?php
 include 'connection.php';
 $id = $_GET['update'];
+$empartment_id= $_GET['empartmentid'];
 if (isset($_POST['submit'])) {
     $name = $_POST['name'];
-    $department = $_POST['department'];
-    
-        $email = $_POST['email'];
-        $mobile = $_POST['mobile'];
-        $password = $_POST['password'];
-        foreach ($department as $deptid) {
-        $query = "UPDATE Employee,Empartment SET Employee.name='$name', empartment.DeptId=$deptid, Employee.email='$email', Employee.mobile='$mobile', Employee.password='$password' FROM Employee JOIN Empartment ON Employee.EmpId = Empartment.EmpId WHERE Employee.EmpId=$id";
-        $result = mysqli_query($con, $query);
-        if ($result) {
-            header('location: view.php');
-        }
+    $department = implode($_POST['department']);
+    $email = $_POST['email'];
+    $mobile = $_POST['mobile'];
+    $password = $_POST['password'];
+
+    // $delete_query = "DELETE Empartment from Empartment WHERE Empartment.EmpId = $id";
+    // $delete_result = mysqli_query($con, $delete_query);
+    // if($delete_result){
+    // $empartment_query = "SELECT * FROM Empartment";
+    // $empartment_result = mysqli_query($con, $empartment_query);
+    // $fetch = mysqli_fetch_assoc($empartment_result);
+    // if($empartment_result){
+    //     $empartment_id = $fetch['empartment_id'];
+    // }
+
+    $query = "UPDATE Employee, Empartment SET Employee.Name='$name', empartment.DeptId=$department, Employee.Email='$email', Employee.Mobile='$mobile', Employee.Password='$password' WHERE Employee.EmpId=$id and Empartment.empartment_id=$empartment_id";
+    $result = mysqli_query($con, $query);
+    if ($result) {
+        header('location: view.php');
     }
+// }
 }
 
-//$query = "SELECT * FROM Employee WHERE EmpId=$id";
 $query = " SELECT * FROM Employee JOIN empartment ON empartment.EmpId = employee.EmpId JOIN department ON department.DeptId = empartment.DeptId WHERE employee.EmpId=$id";
 $result = mysqli_query($con, $query);
 $row = mysqli_fetch_assoc($result);
@@ -27,9 +36,10 @@ if ($result) {
     $email = $row['Email'];
     $mobile =  $row['Mobile'];
     $password =  $row['Password'];
-    $userDeptId = $row['DeptId'];
-    //$userDeptName =
-    // $userDeptId =  [1,3]
+    // $query_for_depts = "SELECT * FROM `empartment` WHERE empartment.EmpId = $id";
+    // $dept_result = mysqli_query( $con, $query_for_depts);
+    //$departments = mysqli_fetch_assoc($dept_result);
+
 }
 
 ?>
@@ -57,21 +67,25 @@ if ($result) {
                 <label class="form-label">Select Department</label><br>
                 <?php $dept_query_new =  "SELECT * FROM department";
                 $results = mysqli_query($con, $dept_query_new);
-                foreach($results as $result): 
-                $DeptId  = $result['DeptId'];
-                $DeptName  =  $result['DeptName'];
-                $DeptLocation =   $result['DeptLocation'] ;
+                foreach ($results as $result) :
+                    $DeptId  = $result['DeptId'];
+                    $DeptName  =  $result['DeptName'];
+                    $DeptLocation =   $result['DeptLocation'];
                 ?>
-                <?php
-                //$userDeptId = '';
-                if( $DeptId === $userDeptId){
-                    $checked = "checked";
-                } else {
-                    $checked = '';
-                }
-                ?>
-                <input type="checkbox" id="<?= strtolower($DeptName) ?>" name="department[]" value="<?= $DeptId ?>" <?= $checked ?>>
-                <label for="<?= strtolower($DeptName) ?>"> <?= $DeptName ?></label><br>
+                    <?php
+                    //$userDeptId = '';
+                    // $checked = array(array)
+                    // while ($departments = mysqli_fetch_assoc($dept_result)) {
+                    //     if ( $DeptId === $departments['DeptId'] ) {
+                    //         $checked = "checked";
+                    //     } else {
+                    //         $checked = '';
+                    //     }
+                    // }
+                    
+                    ?>
+                    <input type="checkbox" id="<?= strtolower($DeptName) ?>" name="department[]" value="<?= $DeptId ?>"     >
+                    <label for="<?= strtolower($DeptName) ?>"> <?= $DeptName ?></label><br>
                 <?php endforeach; ?>
             </div>
             <div class="mb-3">
