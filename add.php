@@ -7,10 +7,10 @@ if (isset($_POST['submit'])) {
     $email = $_POST['email'];
     $mobile = $_POST['mobile'];
     $password = $_POST['password'];
-
+    // Inserting into Employee Table
     $query = "INSERT INTO Employee(Name, Email, Mobile, Password) VALUES('$name', '$email', '$mobile', '$password')";
     $result = mysqli_query($con, $query);
-
+    // Inserting into Empartment Table
     foreach ($department as $deptid) {
         if ($result) {
             $id_query = "SELECT empid from Employee ORDER BY empid DESC";
@@ -48,6 +48,7 @@ if (isset($_POST['submit'])) {
                 <label for="name" class="form-label">Name</label>
                 <input type="text" class="form-control" name="name" placeholder="Enter your name" required>
             </div>
+            <!-- checkbox code -->
             <div class="mb-3">
                 <label class="form-label">Select Department</label><br>
                 <?php $dept_query_new =  "SELECT * FROM department";
@@ -55,7 +56,7 @@ if (isset($_POST['submit'])) {
                 foreach($results as $result): 
                 $DeptId  = $result['DeptId'];
                 $DeptName  =  $result['DeptName'];
-                $DeptLocation =   $result['DeptLocation'] ;
+                //$DeptLocation =   $result['DeptLocation'] ;
                 ?>
                 <input type="checkbox" id="<?= strtolower($DeptName) ?>" name="department[]" value="<?= $DeptId ?>" >
                 <label for="<?= strtolower($DeptName) ?>"> <?= $DeptName ?></label><br>

@@ -18,7 +18,7 @@ if (isset($_POST['submit'])) {
     // if($empartment_result){
     //     $empartment_id = $fetch['empartment_id'];
     // }
-
+    // Update query
     $query = "UPDATE Employee, Empartment SET Employee.Name='$name', empartment.DeptId=$department, Employee.Email='$email', Employee.Mobile='$mobile', Employee.Password='$password' WHERE Employee.EmpId=$id and Empartment.empartment_id=$empartment_id";
     $result = mysqli_query($con, $query);
     if ($result) {
@@ -26,6 +26,8 @@ if (isset($_POST['submit'])) {
     }
 // }
 }
+
+//display data in table to update code
 
 $query = " SELECT * FROM Employee JOIN empartment ON empartment.EmpId = employee.EmpId JOIN department ON department.DeptId = empartment.DeptId WHERE employee.EmpId=$id";
 $result = mysqli_query($con, $query);
@@ -70,11 +72,11 @@ if ($result) {
                 foreach ($results as $result) :
                     $DeptId  = $result['DeptId'];
                     $DeptName  =  $result['DeptName'];
-                    $DeptLocation =   $result['DeptLocation'];
+                    //$DeptLocation =   $result['DeptLocation'];
                 ?>
                     <?php
                     //$userDeptId = '';
-                    // $checked = array(array)
+                    //$checked = array(array);
                     // while ($departments = mysqli_fetch_assoc($dept_result)) {
                     //     if ( $DeptId === $departments['DeptId'] ) {
                     //         $checked = "checked";
@@ -84,7 +86,7 @@ if ($result) {
                     // }
                     
                     ?>
-                    <input type="checkbox" id="<?= strtolower($DeptName) ?>" name="department[]" value="<?= $DeptId ?>"     >
+                    <input type="checkbox" id="<?= strtolower($DeptName) ?>" name="department[]" value="<?= $DeptId ?>"   >
                     <label for="<?= strtolower($DeptName) ?>"> <?= $DeptName ?></label><br>
                 <?php endforeach; ?>
             </div>
