@@ -44,6 +44,10 @@ if ($result) {
 
 }
 
+$new_query = "SELECT * FROM empartment WHERE empartment.empartment_id = $empartment_id";
+$result_user_dept = mysqli_query($con, $new_query);
+$row = mysqli_fetch_assoc($result_user_dept);
+$userDeptid = $row['DeptId'];
 ?>
 
 <!doctype html>
@@ -75,18 +79,13 @@ if ($result) {
                     //$DeptLocation =   $result['DeptLocation'];
                 ?>
                     <?php
-                    //$userDeptId = '';
-                    //$checked = array(array);
-                    // while ($departments = mysqli_fetch_assoc($dept_result)) {
-                    //     if ( $DeptId === $departments['DeptId'] ) {
-                    //         $checked = "checked";
-                    //     } else {
-                    //         $checked = '';
-                    //     }
-                    // }
-                    
+                        if($DeptId === $userDeptid){
+                            $checked = "checked";
+                        } else {
+                            $checked = "";
+                        }
                     ?>
-                    <input type="checkbox" id="<?= strtolower($DeptName) ?>" name="department[]" value="<?= $DeptId ?>"   >
+                    <input type="checkbox" id="<?= strtolower($DeptName) ?>" name="department[]" value="<?= $DeptId ?>" <?= $checked ?> >
                     <label for="<?= strtolower($DeptName) ?>"> <?= $DeptName ?></label><br>
                 <?php endforeach; ?>
             </div>
