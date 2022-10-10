@@ -32,7 +32,7 @@ include 'connection.php';
                     <th scope="col">Mobile</th>
                     <th scope="col">DeptId</th>
                     <th scope="col">Department</th>
-                    <th scope="col">Location</th>
+                    <th scope="col"> Department Location</th>
                     <th scope="col">Operation</th>
                 </tr>
             </thead>
@@ -41,7 +41,7 @@ include 'connection.php';
                 // pagination logic code
                 $result_per_page = 5;
 
-                $sql = "SELECT * FROM employee JOIN empartment ON employee.EmpId = Empartment.EmpId";
+                $sql = "SELECT * FROM empartment";
                 $result = mysqli_query($con, $sql);
                 $number_of_result = mysqli_num_rows($result);
 
@@ -57,10 +57,10 @@ include 'connection.php';
                 //Search button code
                 if (isset($_GET['search'])) {
                     $search = $_GET['search'];
-                    $query = "SELECT * FROM Employee JOIN empartment ON employee.EmpId = empartment.EmpId JOIN department ON department.DeptId = empartment.DeptId WHERE employee.name='$search' or employee.empid = '$search' or employee.mobile = '$search' or department.DeptName = '$search' or department.DeptLocation = '$search'  or department.DeptId = '$search'";
+                    $query = "SELECT * FROM Employee JOIN empartment ON employee.EmpId = empartment.EmpId JOIN department ON department.DeptId = empartment.DeptId WHERE employee.name='$search' or employee.empid = '$search' or employee.email = '$search' or employee.mobile = '$search' or department.DeptName = '$search' or department.DeptLocation = '$search'  or department.DeptId = '$search'";
                 } else {
                 //Paignation query
-                    $query = "SELECT employee.EmpId, employee.Name, employee.Email, employee.Mobile, department.DeptId, department.DeptName, department.DeptLocation, empartment.empartment_id FROM Employee JOIN empartment ON empartment.EmpId = employee.EmpId JOIN department ON department.DeptId = empartment.DeptId ORDER BY employee.EmpId DESC limit  $starting_limit_number , $result_per_page  ";
+                    $query = "SELECT employee.EmpId, employee.Name, employee.Email, employee.Mobile, department.DeptId, department.DeptName, department.DeptLocation, empartment.empartment_id FROM Employee JOIN empartment ON empartment.EmpId = employee.EmpId JOIN department ON department.DeptId = empartment.DeptId ORDER BY employee.EmpId DESC LIMIT  $starting_limit_number , $result_per_page  ";
                 }
 
                 // Table code
@@ -85,8 +85,8 @@ include 'connection.php';
                     <td>' . $department . '</td>
                     <td>' . $location . '</td>
                     
-                    <td><a href="update.php?update=' . $id . '&empartmentid=' . $empartment_id . '" class="text-light"><button class="btn btn-primary ">Update</button></a>
-                    <a href="delete.php?delete=' . $id . '&deleteid=' . $empartment_id . '" class="text-light"><button class="btn btn-danger">Delete</button></a></td>
+                    <td><a href="update.php?empid=' . $id . '&empartmentid=' . $empartment_id . '" class="text-light"><button class="btn btn-primary ">Update</button></a>
+                    <a href="delete.php?empid=' . $id . '&empartmentid=' . $empartment_id . '" class="text-light"><button class="btn btn-danger">Delete</button></a></td>
                 </tr>';
                     }
                 }
@@ -99,8 +99,8 @@ include 'connection.php';
             <ul class="pagination">
                 <?php for ($page = 1; $page <= $number_of_pages; $page++) { ?>
                     <?php
-                    if (isset($_REQUEST['page'])) {
-                        $active =  ($_REQUEST['page'] == $page) ? 'active' : '';
+                    if (isset($_GET['page'])) {
+                        $active =  ($_GET['page'] == $page) ? 'active' : '';
                     }
                     ?>
                     <li class="page-item <?= $active ?>"><a class="page-link" href="view.php?page=<?= $page ?>"><?= $page ?></a></li>

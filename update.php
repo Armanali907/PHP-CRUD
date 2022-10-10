@@ -1,6 +1,6 @@
 <?php
 include 'connection.php';
-$id = $_GET['update'];
+$id = $_GET['empid'];
 $empartment_id= $_GET['empartmentid'];
 if (isset($_POST['submit'])) {
     $name = $_POST['name'];
@@ -9,22 +9,11 @@ if (isset($_POST['submit'])) {
     $mobile = $_POST['mobile'];
     $password = $_POST['password'];
 
-    // $delete_query = "DELETE Empartment from Empartment WHERE Empartment.EmpId = $id";
-    // $delete_result = mysqli_query($con, $delete_query);
-    // if($delete_result){
-    // $empartment_query = "SELECT * FROM Empartment";
-    // $empartment_result = mysqli_query($con, $empartment_query);
-    // $fetch = mysqli_fetch_assoc($empartment_result);
-    // if($empartment_result){
-    //     $empartment_id = $fetch['empartment_id'];
-    // }
-    // Update query
     $query = "UPDATE Employee, Empartment SET Employee.Name='$name', empartment.DeptId=$department, Employee.Email='$email', Employee.Mobile='$mobile', Employee.Password='$password' WHERE Employee.EmpId=$id and Empartment.empartment_id=$empartment_id";
     $result = mysqli_query($con, $query);
     if ($result) {
         header('location: view.php');
     }
-// }
 }
 
 //display data in table to update code
@@ -38,12 +27,9 @@ if ($result) {
     $email = $row['Email'];
     $mobile =  $row['Mobile'];
     $password =  $row['Password'];
-    // $query_for_depts = "SELECT * FROM `empartment` WHERE empartment.EmpId = $id";
-    // $dept_result = mysqli_query( $con, $query_for_depts);
-    //$departments = mysqli_fetch_assoc($dept_result);
-
+  
 }
-
+//Department checkbox display
 $new_query = "SELECT * FROM empartment WHERE empartment.empartment_id = $empartment_id";
 $result_user_dept = mysqli_query($con, $new_query);
 $row = mysqli_fetch_assoc($result_user_dept);
@@ -76,7 +62,7 @@ $userDeptid = $row['DeptId'];
                 foreach ($results as $result) :
                     $DeptId  = $result['DeptId'];
                     $DeptName  =  $result['DeptName'];
-                    //$DeptLocation =   $result['DeptLocation'];
+                    
                 ?>
                     <?php
                         if($DeptId === $userDeptid){

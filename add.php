@@ -11,19 +11,21 @@ if (isset($_POST['submit'])) {
     $query = "INSERT INTO Employee(Name, Email, Mobile, Password) VALUES('$name', '$email', '$mobile', '$password')";
     $result = mysqli_query($con, $query);
     // Inserting into Empartment Table
-    foreach ($department as $deptid) {
+    
         if ($result) {
             $id_query = "SELECT empid from Employee ORDER BY empid DESC";
             $result1_new = mysqli_query($con, $id_query);
             if ($result1_new) {
                 $row1 = mysqli_fetch_assoc($result1_new);
                 $empid = $row1['empid'];
+                foreach ($department as $deptid) {
                 $query1 = "INSERT INTO Empartment(EmpId, DeptId) VALUES($empid, $deptid)";
                 $result1 = mysqli_query($con, $query1);
+                }
                 if ($result1) {
                     header('location: view.php');
                 }
-            }
+            
         }
     }
 }
@@ -56,7 +58,6 @@ if (isset($_POST['submit'])) {
                 foreach($results as $result): 
                 $DeptId  = $result['DeptId'];
                 $DeptName  =  $result['DeptName'];
-                //$DeptLocation =   $result['DeptLocation'] ;
                 ?>
                 <input type="checkbox" id="<?= strtolower($DeptName) ?>" name="department[]" value="<?= $DeptId ?>" >
                 <label for="<?= strtolower($DeptName) ?>"> <?= $DeptName ?></label><br>
