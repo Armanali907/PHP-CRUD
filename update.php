@@ -1,7 +1,7 @@
 <?php
 include 'connection.php';
-$id = $_GET['empid'];
-$empartment_id= $_GET['empartmentid'];
+$id = $_GET['emp_id'];
+$designation_id= $_GET['designation_id'];
 if (isset($_POST['submit'])) {
     $name = $_POST['name'];
     $department = implode($_POST['department']);
@@ -9,31 +9,31 @@ if (isset($_POST['submit'])) {
     $mobile = $_POST['mobile'];
     $password = $_POST['password'];
 
-    $query = "UPDATE Employee, Empartment SET Employee.Name='$name', empartment.DeptId=$department, Employee.Email='$email', Employee.Mobile='$mobile', Employee.Password='$password' WHERE Employee.EmpId=$id and Empartment.empartment_id=$empartment_id";
+    $query = "UPDATE Employee, designation SET Employee.Name='$name', designation.dept_id=$department, Employee.Email='$email', Employee.Mobile='$mobile', Employee.Password='$password' WHERE Employee.emp_id=$id and designation.designation_id=$designation_id";
     $result = mysqli_query($con, $query);
     if ($result) {
         header('location: view.php');
     }
 }
 
-//display data in table to update code
+//display data in table to update code                               
 
-$query = " SELECT * FROM Employee JOIN empartment ON empartment.EmpId = employee.EmpId JOIN department ON department.DeptId = empartment.DeptId WHERE employee.EmpId=$id";
+$query = " SELECT * FROM Employee JOIN designation ON designation.emp_id = employee.emp_id JOIN department ON department.dept_id = designation.dept_id WHERE employee.emp_id=$id";
 $result = mysqli_query($con, $query);
 $row = mysqli_fetch_assoc($result);
 if ($result) {
-    $id =  $row['EmpId'];
-    $name = $row['Name'];
-    $email = $row['Email'];
-    $mobile =  $row['Mobile'];
-    $password =  $row['Password'];
+    $id =  $row['emp_id'];
+    $name = $row['name'];
+    $email = $row['email'];
+    $mobile =  $row['mobile'];
+    $password =  $row['password'];
   
 }
 //Department checkbox display
-$new_query = "SELECT * FROM empartment WHERE empartment.empartment_id = $empartment_id";
+$new_query = "SELECT * FROM designation WHERE designation.designation_id = $designation_id";
 $result_user_dept = mysqli_query($con, $new_query);
 $row = mysqli_fetch_assoc($result_user_dept);
-$userDeptid = $row['DeptId'];
+$userdept_id = $row['dept_id'];
 ?>
 
 <!doctype html>
@@ -47,8 +47,8 @@ $userDeptid = $row['DeptId'];
 </head>
 
 <body>
-    <div class="container my-5">
-        <a href="view.php" class="text-light"><button class="btn btn-primary my-5">Home</button></a>
+    <div class="container my-2">
+        <a href="view.php" class="text-light"><button class="btn btn-primary my-3">Home</button></a>
 
         <form method="post" action="">
             <div class="mb-3">
@@ -60,19 +60,19 @@ $userDeptid = $row['DeptId'];
                 <?php $dept_query_new =  "SELECT * FROM department";
                 $results = mysqli_query($con, $dept_query_new);
                 foreach ($results as $result) :
-                    $DeptId  = $result['DeptId'];
-                    $DeptName  =  $result['DeptName'];
+                    $dept_id  = $result['dept_id'];
+                    $dept_name  =  $result['dept_name'];
                     
                 ?>
                     <?php
-                        if($DeptId === $userDeptid){
+                        if($dept_id === $userdept_id){
                             $checked = "checked";
                         } else {
                             $checked = "";
                         }
                     ?>
-                    <input type="checkbox" id="<?= strtolower($DeptName) ?>" name="department[]" value="<?= $DeptId ?>" <?= $checked ?> >
-                    <label for="<?= strtolower($DeptName) ?>"> <?= $DeptName ?></label><br>
+                    <input type="checkbox" id="<?= strtolower($dept_name) ?>" name="department[]" value="<?= $dept_id ?>" <?= $checked ?> >
+                    <label for="<?= strtolower($dept_name) ?>"> <?= $dept_name ?></label><br>
                 <?php endforeach; ?>
             </div>
             <div class="mb-3">

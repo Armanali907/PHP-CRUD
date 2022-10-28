@@ -10,16 +10,16 @@ if (isset($_POST['submit'])) {
     // Inserting into Employee Table
     $query = "INSERT INTO Employee(Name, Email, Mobile, Password) VALUES('$name', '$email', '$mobile', '$password')";
     $result = mysqli_query($con, $query);
-    // Inserting into Empartment Table
+    // Inserting into designation Table
     
         if ($result) {
-            $id_query = "SELECT empid from Employee ORDER BY empid DESC";
+            $id_query = "SELECT emp_id from Employee ORDER BY emp_id DESC";
             $result1_new = mysqli_query($con, $id_query);
             if ($result1_new) {
                 $row1 = mysqli_fetch_assoc($result1_new);
-                $empid = $row1['empid'];
-                foreach ($department as $deptid) {
-                $query1 = "INSERT INTO Empartment(EmpId, DeptId) VALUES($empid, $deptid)";
+                $emp_id = $row1['emp_id'];
+                foreach ($department as $dept_id) {
+                $query1 = "INSERT INTO designation(emp_id, dept_id) VALUES($emp_id, $dept_id)";
                 $result1 = mysqli_query($con, $query1);
                 }
                 if ($result1) {
@@ -56,11 +56,11 @@ if (isset($_POST['submit'])) {
                 <?php $dept_query_new =  "SELECT * FROM department";
                 $results = mysqli_query($con, $dept_query_new);
                 foreach($results as $result): 
-                $DeptId  = $result['DeptId'];
-                $DeptName  =  $result['DeptName'];
+                $dept_id  = $result['dept_id'];
+                $dept_name  =  $result['dept_name'];
                 ?>
-                <input type="checkbox" id="<?= strtolower($DeptName) ?>" name="department[]" value="<?= $DeptId ?>" >
-                <label for="<?= strtolower($DeptName) ?>"> <?= $DeptName ?></label><br>
+                <input type="checkbox" id="<?= strtolower($dept_name) ?>" name="department[]" value="<?= $dept_id ?>" >
+                <label for="<?= strtolower($dept_name) ?>"> <?= $dept_name ?></label><br>
                 <?php endforeach; ?>
             </div>
 
