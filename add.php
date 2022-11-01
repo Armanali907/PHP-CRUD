@@ -7,17 +7,20 @@ if (isset($_POST['submit'])) {
     $email = $_POST['email'];
     $mobile = $_POST['mobile'];
     $password = $_POST['password'];
-    // Inserting into Employee Table
+
+    // Inserting into employee table
+
     $query = "INSERT INTO Employee(Name, Email, Mobile, Password) VALUES('$name', '$email', '$mobile', '$password')";
     $result = mysqli_query($con, $query);
-    // Inserting into designation Table
+
+    // Inserting into designation table
     
         if ($result) {
             $id_query = "SELECT emp_id from Employee ORDER BY emp_id DESC";
-            $result1_new = mysqli_query($con, $id_query);
-            if ($result1_new) {
-                $row1 = mysqli_fetch_assoc($result1_new);
-                $emp_id = $row1['emp_id'];
+            $id_query_result = mysqli_query($con, $id_query);
+            if ($id_query_result) {
+                $row = mysqli_fetch_assoc($id_query_result);
+                $emp_id = $row['emp_id'];
                 foreach ($department as $dept_id) {
                 $query1 = "INSERT INTO designation(emp_id, dept_id) VALUES($emp_id, $dept_id)";
                 $result1 = mysqli_query($con, $query1);
@@ -55,6 +58,9 @@ if (isset($_POST['submit'])) {
                 <label class="form-label">Select Department</label><br>
                 <?php $dept_query_new =  "SELECT * FROM department";
                 $results = mysqli_query($con, $dept_query_new);
+                
+                //getting departments dynamically
+
                 foreach($results as $result): 
                 $dept_id  = $result['dept_id'];
                 $dept_name  =  $result['dept_name'];

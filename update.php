@@ -1,7 +1,7 @@
 <?php
 include 'connection.php';
-$id = $_GET['emp_id'];
-$designation_id= $_GET['designation_id'];
+$empid = $_GET['emp_id'];
+//$designation_id= $_GET['designation_id'];
 if (isset($_POST['submit'])) {
     $name = $_POST['name'];
     $department = implode($_POST['department']);
@@ -9,7 +9,7 @@ if (isset($_POST['submit'])) {
     $mobile = $_POST['mobile'];
     $password = $_POST['password'];
 
-    $query = "UPDATE Employee, designation SET Employee.Name='$name', designation.dept_id=$department, Employee.Email='$email', Employee.Mobile='$mobile', Employee.Password='$password' WHERE Employee.emp_id=$id and designation.designation_id=$designation_id";
+    $query = "UPDATE employee, designation SET employee.name='$name', designation.dept_id=$department, employee.email='$email', employee.mobile='$mobile', employee.password='$password' WHERE employee.emp_id=$empid";
     $result = mysqli_query($con, $query);
     if ($result) {
         header('location: view.php');
@@ -18,7 +18,7 @@ if (isset($_POST['submit'])) {
 
 //display data in table to update code                               
 
-$query = " SELECT * FROM Employee JOIN designation ON designation.emp_id = employee.emp_id JOIN department ON department.dept_id = designation.dept_id WHERE employee.emp_id=$id";
+$query = " SELECT * FROM Employee JOIN designation ON designation.emp_id = employee.emp_id JOIN department ON department.dept_id = designation.dept_id WHERE employee.emp_id=$empid";
 $result = mysqli_query($con, $query);
 $row = mysqli_fetch_assoc($result);
 if ($result) {
@@ -27,13 +27,15 @@ if ($result) {
     $email = $row['email'];
     $mobile =  $row['mobile'];
     $password =  $row['password'];
+    $userdept_id = $row['dept_id'];
   
 }
 //Department checkbox display
-$new_query = "SELECT * FROM designation WHERE designation.designation_id = $designation_id";
-$result_user_dept = mysqli_query($con, $new_query);
-$row = mysqli_fetch_assoc($result_user_dept);
-$userdept_id = $row['dept_id'];
+// $new_query = "SELECT * FROM designation WHERE designation.designation_id = $designation_id";
+// $result_user_dept = mysqli_query($con, $new_query);
+// $row = mysqli_fetch_assoc($result_user_dept);
+
+//$userdept_id1 = explode(",", $userdept_id);
 ?>
 
 <!doctype html>
@@ -61,10 +63,13 @@ $userdept_id = $row['dept_id'];
                 $results = mysqli_query($con, $dept_query_new);
                 foreach ($results as $result) :
                     $dept_id  = $result['dept_id'];
+                    //$dept_id1  = explode(",", $dept_id);
                     $dept_name  =  $result['dept_name'];
                     
                 ?>
                     <?php
+
+                    
                         if($dept_id === $userdept_id){
                             $checked = "checked";
                         } else {
